@@ -16,6 +16,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    _goSearch = [SearchManager shareSearch];
+    
+    
     // Override point for customization after application launch.
     return YES;
 }

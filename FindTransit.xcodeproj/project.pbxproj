@@ -15,6 +15,11 @@
 		C7FBF0F51B5A17ED00CD5176 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7FBF0F41B5A17ED00CD5176 /* Images.xcassets */; };
 		C7FBF0F81B5A17ED00CD5176 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7FBF0F61B5A17ED00CD5176 /* LaunchScreen.xib */; };
 		C7FBF1041B5A17ED00CD5176 /* FindTransitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF1031B5A17ED00CD5176 /* FindTransitTests.m */; };
+		C7FBF10E1B5A180000CD5176 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7FBF10D1B5A180000CD5176 /* MapKit.framework */; };
+		C7FBF1101B5A180800CD5176 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7FBF10F1B5A180800CD5176 /* CoreLocation.framework */; };
+		C7FBF1151B5A186C00CD5176 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF1121B5A186C00CD5176 /* Reachability.m */; };
+		C7FBF1161B5A186C00CD5176 /* SearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF1141B5A186C00CD5176 /* SearchManager.m */; };
+		C7FBF1191B5A2D9900CD5176 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF1181B5A2D9900CD5176 /* DetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +47,14 @@
 		C7FBF0FD1B5A17ED00CD5176 /* FindTransitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FindTransitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7FBF1021B5A17ED00CD5176 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7FBF1031B5A17ED00CD5176 /* FindTransitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FindTransitTests.m; sourceTree = "<group>"; };
+		C7FBF10D1B5A180000CD5176 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C7FBF10F1B5A180800CD5176 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C7FBF1111B5A186C00CD5176 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		C7FBF1121B5A186C00CD5176 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		C7FBF1131B5A186C00CD5176 /* SearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchManager.h; sourceTree = "<group>"; };
+		C7FBF1141B5A186C00CD5176 /* SearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchManager.m; sourceTree = "<group>"; };
+		C7FBF1171B5A2D9900CD5176 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		C7FBF1181B5A2D9900CD5176 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7FBF1101B5A180800CD5176 /* CoreLocation.framework in Frameworks */,
+				C7FBF10E1B5A180000CD5176 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +80,8 @@
 		C7FBF0D81B5A17ED00CD5176 = {
 			isa = PBXGroup;
 			children = (
+				C7FBF10F1B5A180800CD5176 /* CoreLocation.framework */,
+				C7FBF10D1B5A180000CD5176 /* MapKit.framework */,
 				C7FBF0E31B5A17ED00CD5176 /* FindTransit */,
 				C7FBF1001B5A17ED00CD5176 /* FindTransitTests */,
 				C7FBF0E21B5A17ED00CD5176 /* Products */,
@@ -87,6 +104,12 @@
 				C7FBF0E91B5A17ED00CD5176 /* AppDelegate.m */,
 				C7FBF0EE1B5A17ED00CD5176 /* ViewController.h */,
 				C7FBF0EF1B5A17ED00CD5176 /* ViewController.m */,
+				C7FBF1171B5A2D9900CD5176 /* DetailViewController.h */,
+				C7FBF1181B5A2D9900CD5176 /* DetailViewController.m */,
+				C7FBF1111B5A186C00CD5176 /* Reachability.h */,
+				C7FBF1121B5A186C00CD5176 /* Reachability.m */,
+				C7FBF1131B5A186C00CD5176 /* SearchManager.h */,
+				C7FBF1141B5A186C00CD5176 /* SearchManager.m */,
 				C7FBF0F11B5A17ED00CD5176 /* Main.storyboard */,
 				C7FBF0F41B5A17ED00CD5176 /* Images.xcassets */,
 				C7FBF0F61B5A17ED00CD5176 /* LaunchScreen.xib */,
@@ -223,9 +246,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7FBF0EA1B5A17ED00CD5176 /* AppDelegate.m in Sources */,
+				C7FBF1161B5A186C00CD5176 /* SearchManager.m in Sources */,
 				C7FBF0ED1B5A17ED00CD5176 /* FindTransit.xcdatamodeld in Sources */,
 				C7FBF0F01B5A17ED00CD5176 /* ViewController.m in Sources */,
 				C7FBF0E71B5A17ED00CD5176 /* main.m in Sources */,
+				C7FBF1151B5A186C00CD5176 /* Reachability.m in Sources */,
+				C7FBF1191B5A2D9900CD5176 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

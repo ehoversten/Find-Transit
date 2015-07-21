@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rga-zT-Pbe">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="uua-S1-h1b">
+            <objects>
+                <navigationController id="Rga-zT-Pbe" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nVa-Z6-oXA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="2Uk-lc-Vl6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q5z-So-6gH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-369" y="149"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -15,11 +32,89 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="m0Z-8J-nRN">
+                                <rect key="frame" x="16" y="20" width="568" height="388"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="ZXA-3Q-ROf"/>
+                                </connections>
+                            </mapView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Hzs-Yj-yqQ">
+                                <rect key="frame" x="16" y="416" width="568" height="176"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="7E6-zm-hh9"/>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="tnT-G1-gXN"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-44" id="BiL-qL-Ugh"/>
+                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="leading" secondItem="Hzs-Yj-yqQ" secondAttribute="trailing" constant="-568" id="DWx-zw-bCP"/>
+                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="N8V-08-8Qg"/>
+                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="YhY-q8-HBP"/>
+                            <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="axl-4j-EbA"/>
+                            <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="blx-aq-Xij"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="m0Z-8J-nRN" secondAttribute="bottom" constant="192" id="oFw-IU-4kE"/>
+                            <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="top" secondItem="m0Z-8J-nRN" secondAttribute="bottom" constant="8" id="ov4-WC-TSb"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Hzs-Yj-yqQ" secondAttribute="bottom" constant="8" id="zlS-i2-Fbw"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="2ha-fr-zr1">
+                        <barButtonItem key="rightBarButtonItem" title="Find me Transit" id="D9N-SI-CRt">
+                            <connections>
+                                <action selector="sendLocationButton:" destination="vXZ-lx-hvc" id="Zcl-Rz-Dz2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="metroTableView" destination="Hzs-Yj-yqQ" id="jbc-JP-oDK"/>
+                        <outlet property="sendLocationButton" destination="D9N-SI-CRt" id="Mno-V1-scT"/>
+                        <outlet property="transitMapView" destination="m0Z-8J-nRN" id="2JK-OV-BxP"/>
+                        <segue destination="ZT5-vM-bxA" kind="show" identifier="listToDetailSegue" id="sQs-cr-Cqk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="304" y="149"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="3Xi-mO-52T">
+            <objects>
+                <viewController id="ZT5-vM-bxA" customClass="DetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yOf-CK-j2e"/>
+                        <viewControllerLayoutGuide type="bottom" id="x1p-Po-YQb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Uxv-mu-CjQ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="zrL-g9-pdB">
+                                <rect key="frame" x="16" y="72" width="568" height="325"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ZT5-vM-bxA" id="hLG-QV-YK0"/>
+                                    <outlet property="delegate" destination="ZT5-vM-bxA" id="8Xx-LE-NfG"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="x1p-Po-YQb" firstAttribute="top" secondItem="zrL-g9-pdB" secondAttribute="bottom" constant="203" id="Jlf-XV-1LH"/>
+                            <constraint firstItem="zrL-g9-pdB" firstAttribute="top" secondItem="yOf-CK-j2e" secondAttribute="bottom" constant="8" id="Rck-s6-L7q"/>
+                            <constraint firstItem="zrL-g9-pdB" firstAttribute="trailing" secondItem="Uxv-mu-CjQ" secondAttribute="trailingMargin" id="h0Q-J1-ihg"/>
+                            <constraint firstItem="zrL-g9-pdB" firstAttribute="leading" secondItem="Uxv-mu-CjQ" secondAttribute="leadingMargin" id="knL-Zu-Rxd"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="trainTableView" destination="zrL-g9-pdB" id="rlx-J8-8ZU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gQr-ca-aQo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="990" y="149"/>
         </scene>
     </scenes>
 </document>
