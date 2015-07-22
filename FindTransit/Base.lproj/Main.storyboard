@@ -21,6 +21,52 @@
             </objects>
             <point key="canvasLocation" x="-369" y="149"/>
         </scene>
+        <!--Map View Controller-->
+        <scene sceneID="QE3-KD-Tsr">
+            <objects>
+                <viewController id="W00-9t-mxg" customClass="MapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qhy-Ra-Whn"/>
+                        <viewControllerLayoutGuide type="bottom" id="ObJ-hI-A77"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DC2-DD-R8R">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="color_map_silverline.png" translatesAutoresizingMaskIntoConstraints="NO" id="AtM-7J-BMH">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="5Sm-cL-TsS" appends="YES" id="lZV-iN-AlV"/>
+                                    <outletCollection property="gestureRecognizers" destination="hgA-7y-nqf" appends="YES" id="rSb-KL-dWR"/>
+                                </connections>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AtM-7J-BMH" firstAttribute="top" secondItem="qhy-Ra-Whn" secondAttribute="bottom" constant="-64" id="0j3-qn-zdP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AtM-7J-BMH" secondAttribute="trailing" constant="-16" id="3ff-ew-G7o"/>
+                            <constraint firstItem="ObJ-hI-A77" firstAttribute="top" secondItem="AtM-7J-BMH" secondAttribute="bottom" id="Wf6-xZ-MX9"/>
+                            <constraint firstItem="AtM-7J-BMH" firstAttribute="leading" secondItem="DC2-DD-R8R" secondAttribute="leadingMargin" constant="-16" id="zHC-64-kRl"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QdI-NE-Rhp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="5Sm-cL-TsS">
+                    <connections>
+                        <action selector="handlePan:" destination="W00-9t-mxg" id="oPk-6M-d0D"/>
+                        <outlet property="delegate" destination="W00-9t-mxg" id="30O-eS-svn"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer id="hgA-7y-nqf">
+                    <connections>
+                        <action selector="handlePinch:" destination="W00-9t-mxg" id="HsZ-Kc-ulo"/>
+                        <outlet property="delegate" destination="W00-9t-mxg" id="T9R-6r-sG0"/>
+                    </connections>
+                </pinchGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="303" y="-542"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -56,7 +102,37 @@
                                     <segment title="Bike Share"/>
                                 </segments>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="sendLocationButton:" destination="vXZ-lx-hvc" eventType="valueChanged" id="4by-wr-ijO"/>
+                                </connections>
                             </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bS1-xM-ymW">
+                                <rect key="frame" x="23" y="81" width="82" height="82"/>
+                                <color key="backgroundColor" red="0.41917558640000002" green="0.62213781420000003" blue="0.73238266210000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="82" id="TwG-sZ-1nr"/>
+                                    <constraint firstAttribute="height" constant="82" id="wRl-fV-1HW"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55x-U4-FP8">
+                                <rect key="frame" x="26" y="83" width="75" height="75"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="H7q-kl-BpP"/>
+                                    <constraint firstAttribute="width" constant="75" id="wzf-Pz-QJk"/>
+                                </constraints>
+                                <size key="titleShadowOffset" width="5" height="5"/>
+                                <state key="normal" title="Button" image="new-metro-map-small.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendMapViewButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="tJP-ek-Gzc"/>
+                                    <segue destination="W00-9t-mxg" kind="show" id="X55-eD-RfI"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.41917558641157066" green="0.62213781418187653" blue="0.73238266206750968" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -66,6 +142,8 @@
                             <constraint firstItem="m0Z-8J-nRN" firstAttribute="leading" secondItem="Hzs-Yj-yqQ" secondAttribute="trailing" constant="-568" id="DWx-zw-bCP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pQm-C9-XXj" secondAttribute="trailing" constant="58" id="H2J-pI-vqK"/>
                             <constraint firstItem="m0Z-8J-nRN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="N8V-08-8Qg"/>
+                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="leading" secondItem="bS1-xM-ymW" secondAttribute="trailing" constant="-89" id="VMA-0n-9ZI"/>
+                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="top" secondItem="bS1-xM-ymW" secondAttribute="bottom" constant="-91" id="VZc-d0-XFY"/>
                             <constraint firstItem="m0Z-8J-nRN" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="YhY-q8-HBP"/>
                             <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="axl-4j-EbA"/>
                             <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="blx-aq-Xij"/>
@@ -83,6 +161,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="mapButton" destination="55x-U4-FP8" id="hkj-SX-7uW"/>
                         <outlet property="metroTableView" destination="Hzs-Yj-yqQ" id="jbc-JP-oDK"/>
                         <outlet property="sendLocationButton" destination="D9N-SI-CRt" id="Mno-V1-scT"/>
                         <outlet property="transitMapView" destination="m0Z-8J-nRN" id="2JK-OV-BxP"/>
@@ -132,4 +211,8 @@
             <point key="canvasLocation" x="990" y="149"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="color_map_silverline.png" width="5100" height="5700"/>
+        <image name="new-metro-map-small.png" width="270" height="270"/>
+    </resources>
 </document>

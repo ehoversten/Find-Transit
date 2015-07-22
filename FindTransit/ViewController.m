@@ -27,12 +27,12 @@
 @property (nonatomic, strong) NSArray            *metroArray;
 @property (nonatomic, strong) NSArray            *bikeArray;
 @property (nonatomic, strong) NSArray            *busArray;
-@property (nonatomic, strong) NSArray            *latArray;
-@property (nonatomic, strong) NSArray            *lonArray;
+
 @property (nonatomic, strong) IBOutlet MKMapView *transitMapView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem  *sendLocationButton;
 @property (nonatomic, strong) IBOutlet UITableView *metroTableView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *travelSeg;
+@property (nonatomic, strong) IBOutlet UIButton  *mapButton;
 
 @end
 
@@ -42,29 +42,29 @@
 BOOL internetAvailable;
 BOOL serverAvailable;
 
-#pragma mark - Search Methods
-
-- (void)searchSegClicked: (UISearchBar *)segmentBar {
-    switch (_travelSeg.selectedSegmentIndex) {
-        case 0:
-            [self metroSearch];
-            break;
-        case 1:
-            [self bikeSearch];
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)metroSearch {
-    NSLog(@"Metro Search");
-}
-
-- (void)bikeSearch {
-    NSLog(@"Bike Search");
-}
-
+//#pragma mark - Search Methods
+//
+//- (IBAction)searchSegClicked:(UISegmentedControl *)segmentBar {
+//    switch (_travelSeg.selectedSegmentIndex) {
+//        case 0:
+//            [self metroSearch];
+//            break;
+//        case 1:
+//            [self bikeSearch];
+//            break;
+//        default:
+//            break;
+//    }
+//}
+//
+//- (void)metroSearch {
+//    NSLog(@"Metro Search");
+//}
+//
+//- (void)bikeSearch {
+//    NSLog(@"Bike Search");
+//}
+//
 #pragma mark - TableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -73,7 +73,14 @@ BOOL serverAvailable;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //NSLog(@"Nearest Metro's: %lu", (unsigned long)_metroArray.count);
-    return _metroArray.count;
+    if (_travelSeg.selectedSegmentIndex == 0) {
+        return _metroArray.count;
+    } else if (_travelSeg.selectedSegmentIndex == 1) {
+        return _bikeArray.count;
+    } else {
+        return 0;
+    }
+    //return _metroArray.count;
 }
 
 
@@ -85,18 +92,37 @@ BOOL serverAvailable;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
     
-    // Metro Station display code
-    NSDictionary *nearStation = [_metroArray objectAtIndex:indexPath.row];
+    if (_travelSeg.selectedSegmentIndex == 0) {
+        NSDictionary *nearStation = [_metroArray objectAtIndex:indexPath.row];
+        cell.textLabel.text = [nearStation objectForKey:@"name"];
+        cell.detailTextLabel.text = [nearStation objectForKey:@"address"];
+    } else if (_travelSeg.selectedSegmentIndex == 1) {
+        NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
+        cell.textLabel.text = [nearBike objectForKey:@"name"];
+        NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
+        NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
+        
+        
+//        NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
+//        cell.textLabel.text = [nearBike objectForKey:@"name"];
+//        NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
+//        NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
+//        cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
+    }
+
+    
+//    // Metro Station display code
+//    NSDictionary *nearStation = [_metroArray objectAtIndex:indexPath.row];
 //    cell.textLabel.text = [nearStation objectForKey:@"name"];
 //    cell.detailTextLabel.text = [nearStation objectForKey:@"address"];
-    
-    
-    // Bike Share display code
-    NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [nearBike objectForKey:@"name"];
-    NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
-    NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
+//    
+//    // Bike Share display code
+//    NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
+//    cell.textLabel.text = [nearBike objectForKey:@"name"];
+//    NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
+//    NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
     
     
     //    cell.textLabel.text = [(NSDictionary *)json objectForKey:@"station"] ];
@@ -107,7 +133,11 @@ BOOL serverAvailable;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Selected");
-    [self performSegueWithIdentifier:@"listToDetailSegue" sender:self];
+    if (_travelSeg.selectedSegmentIndex == 0) {
+        [self performSegueWithIdentifier:@"listToDetailSegue" sender:self];
+    } else {
+        [_metroTableView deselectRowAtIndexPath:[_metroTableView indexPathForSelectedRow] animated:true];
+    }
     // code for adding a sequeToDetailView
 }
 
@@ -116,28 +146,50 @@ BOOL serverAvailable;
     if ([[segue identifier] isEqualToString:@"listToDetailSegue"])      {
         DetailViewController *destController = [segue destinationViewController];
         NSIndexPath *indexPath = [_metroTableView indexPathForSelectedRow];
-        NSDictionary *line = [_metroArray objectAtIndex:indexPath.row];
-        destController.nearStation = line;
-        //        NSLog(@"Passing:%@", [line objectForKey:@"train"]);
-        NSLog(@"Passing: %@", line);
+        if (_travelSeg.selectedSegmentIndex == 0) {
+            NSDictionary *line = [_metroArray objectAtIndex:indexPath.row];
+            destController.nearStation = line;
+            NSLog(@"Passing Metro: %@", line);
+        }
+//        } else if (_travelSeg.selectedSegmentIndex == 1) {
+//            NSDictionary *line = [_bikeArray objectAtIndex:indexPath.row];
+//            destController.nearStation = line;
+//            //destController.nearBike = line;
+//            NSLog(@"Passing Bike Share: %@", line);
+//        }
+//        NSDictionary *line = [_metroArray objectAtIndex:indexPath.row];
+//        destController.nearStation = line;
+//        NSLog(@"Passing:%@", [line objectForKey:@"train"]);
+        
         
     }
     
 }   // end of prepareForSegue Method
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section  {
-    return @"Metro Stations";
+    if (_travelSeg.selectedSegmentIndex == 0) {
+        return @"Metro Stations";
+    } else if (_travelSeg.selectedSegmentIndex == 1)  {
+        return @"Bike Share";
+    } else {
+        return @"Error";
+    }
 }
 
 
 
 - (void)dataReceived:(NSNotification *)flag {
     NSLog(@"Got Data for Table");
+    
     [_metroTableView reloadData];
 }
 
 
 #pragma mark - Interactivity Methods
+
+- (IBAction)sendMapViewButton:(id)sender  {
+    NSLog(@"Go go gadget Maps!");
+}
 
 - (IBAction)sendLocationButton:(id)sender {
     NSLog(@"Lat,Long: Sent...");
@@ -171,8 +223,8 @@ BOOL serverAvailable;
             _bikeArray = [(NSDictionary *) json objectForKey:@"bike"];
             NSLog(@"Bike Array Results: %@", _bikeArray);
             
-            _latArray = [(NSDictionary *) json objectForKey:@"latitude"];
-            _lonArray = [(NSDictionary *) json objectForKey:@"longitude"];
+//            _latArray = [(NSDictionary *) json objectForKey:@"latitude"];
+//            _lonArray = [(NSDictionary *) json objectForKey:@"longitude"];
             
 //            NSString *stationName = [(NSDictionary *) json objectForKey:@"name"];
 //            NSLog(@"Station Name Results : %@", _stationName);
@@ -181,8 +233,14 @@ BOOL serverAvailable;
               //  [spinner stopAnimating];
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:false];
                 [_metroTableView reloadData];       // will refresh the TableView
-                [self annotateMapLocations];
+                if (_travelSeg.selectedSegmentIndex == 0) {
+                    [self annotateMapLocations:_metroArray];
+                } else if (_travelSeg.selectedSegmentIndex == 1) {
+                    [self annotateMapLocations:_bikeArray];
+                }
+
                 [_transitMapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+            
             });
         }
     }];
@@ -270,32 +328,22 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
     }
 }
 
-- (void)annotateMapLocations {
+- (void)annotateMapLocations:(NSArray *)locArray {
     NSMutableArray *locs = [[NSMutableArray alloc] init];
     for (id <MKAnnotation> annot in [_transitMapView annotations]) {
         if ([annot isKindOfClass:[MKPointAnnotation class]]) {
             [locs addObject:annot];
         }
     }
-
     [_transitMapView removeAnnotations:locs];       // remove pins
     
     NSMutableArray *annotionArray = [[NSMutableArray alloc] init];
-    MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
-    pa.coordinate = CLLocationCoordinate2DMake(38.911131, -77.044424);
-    pa.title = @"Dupont Circle";
-    [annotionArray addObject:pa];
-
-    MKPointAnnotation *pa2 = [[MKPointAnnotation alloc] init];
-    pa2.coordinate = CLLocationCoordinate2DMake(38.902822, -77.039145);
-    pa2.title = @"Farragut North";
-    [annotionArray addObject:pa2];
-
-    MKPointAnnotation *pa3 = [[MKPointAnnotation alloc] init];
-    pa3.coordinate = CLLocationCoordinate2DMake(38.901400, -77.041788);
-    pa3.title = @"Farragut West";
-    [annotionArray addObject:pa3];
-    
+    for (NSDictionary *loc in locArray) {
+        MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
+        pa.coordinate = CLLocationCoordinate2DMake([[loc objectForKey:@"latitude"] floatValue], [[loc objectForKey:@"longitude"] floatValue]);
+        pa.title = [loc objectForKey:@"name"];
+        [annotionArray addObject:pa];
+    }
     [_transitMapView addAnnotations:annotionArray];  // adds annotations to the mapView
     
 }
@@ -306,7 +354,12 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
         if (annotationView == nil) {
             annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
             annotationView.canShowCallout = true;
-            annotationView.pinColor = MKPinAnnotationColorGreen;
+//            if (_travelSeg.selectedSegmentIndex == 0) {
+//                annotationView.pinColor = MKPinAnnotationColorGreen;
+//            } else if (_travelSeg.selectedSegmentIndex == 1)  {
+//                annotationView.pinColor = MKPinAnnotationColorRed;
+//            }
+            annotationView.pinColor = MKPinAnnotationColorRed;
             annotationView.animatesDrop = true;
         } else {
             annotationView.annotation = annotation;

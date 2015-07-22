@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7E226901B60316D00B5F7BA /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E2268F1B60316D00B5F7BA /* MapViewController.m */; };
+		C7E226921B6038AC00B5F7BA /* color_map_silverline.png in Resources */ = {isa = PBXBuildFile; fileRef = C7E226911B6038AC00B5F7BA /* color_map_silverline.png */; };
+		C7E226941B6039B600B5F7BA /* new-metro-map-small.png in Resources */ = {isa = PBXBuildFile; fileRef = C7E226931B6039B600B5F7BA /* new-metro-map-small.png */; };
 		C7FBF0E71B5A17ED00CD5176 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF0E61B5A17ED00CD5176 /* main.m */; };
 		C7FBF0EA1B5A17ED00CD5176 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF0E91B5A17ED00CD5176 /* AppDelegate.m */; };
 		C7FBF0ED1B5A17ED00CD5176 /* FindTransit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF0EB1B5A17ED00CD5176 /* FindTransit.xcdatamodeld */; };
@@ -33,6 +36,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C7E2268E1B60316D00B5F7BA /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		C7E2268F1B60316D00B5F7BA /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		C7E226911B6038AC00B5F7BA /* color_map_silverline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = color_map_silverline.png; sourceTree = "<group>"; };
+		C7E226931B6039B600B5F7BA /* new-metro-map-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-metro-map-small.png"; sourceTree = "<group>"; };
 		C7FBF0E11B5A17ED00CD5176 /* FindTransit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindTransit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7FBF0E51B5A17ED00CD5176 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7FBF0E61B5A17ED00CD5176 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -106,11 +113,15 @@
 				C7FBF0EF1B5A17ED00CD5176 /* ViewController.m */,
 				C7FBF1171B5A2D9900CD5176 /* DetailViewController.h */,
 				C7FBF1181B5A2D9900CD5176 /* DetailViewController.m */,
+				C7E2268E1B60316D00B5F7BA /* MapViewController.h */,
+				C7E2268F1B60316D00B5F7BA /* MapViewController.m */,
 				C7FBF1111B5A186C00CD5176 /* Reachability.h */,
 				C7FBF1121B5A186C00CD5176 /* Reachability.m */,
 				C7FBF1131B5A186C00CD5176 /* SearchManager.h */,
 				C7FBF1141B5A186C00CD5176 /* SearchManager.m */,
 				C7FBF0F11B5A17ED00CD5176 /* Main.storyboard */,
+				C7E226931B6039B600B5F7BA /* new-metro-map-small.png */,
+				C7E226911B6038AC00B5F7BA /* color_map_silverline.png */,
 				C7FBF0F41B5A17ED00CD5176 /* Images.xcassets */,
 				C7FBF0F61B5A17ED00CD5176 /* LaunchScreen.xib */,
 				C7FBF0EB1B5A17ED00CD5176 /* FindTransit.xcdatamodeld */,
@@ -225,7 +236,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7E226921B6038AC00B5F7BA /* color_map_silverline.png in Resources */,
 				C7FBF0F31B5A17ED00CD5176 /* Main.storyboard in Resources */,
+				C7E226941B6039B600B5F7BA /* new-metro-map-small.png in Resources */,
 				C7FBF0F81B5A17ED00CD5176 /* LaunchScreen.xib in Resources */,
 				C7FBF0F51B5A17ED00CD5176 /* Images.xcassets in Resources */,
 			);
@@ -248,6 +261,7 @@
 				C7FBF0EA1B5A17ED00CD5176 /* AppDelegate.m in Sources */,
 				C7FBF1161B5A186C00CD5176 /* SearchManager.m in Sources */,
 				C7FBF0ED1B5A17ED00CD5176 /* FindTransit.xcdatamodeld in Sources */,
+				C7E226901B60316D00B5F7BA /* MapViewController.m in Sources */,
 				C7FBF0F01B5A17ED00CD5176 /* ViewController.m in Sources */,
 				C7FBF0E71B5A17ED00CD5176 /* main.m in Sources */,
 				C7FBF1151B5A186C00CD5176 /* Reachability.m in Sources */,
@@ -446,6 +460,7 @@
 				C7FBF1091B5A17ED00CD5176 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C7FBF10A1B5A17ED00CD5176 /* Build configuration list for PBXNativeTarget "FindTransitTests" */ = {
 			isa = XCConfigurationList;
@@ -454,6 +469,7 @@
 				C7FBF10C1B5A17ED00CD5176 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
