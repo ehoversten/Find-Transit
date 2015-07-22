@@ -12,6 +12,7 @@
 @interface DetailViewController ()
 
 @property (nonatomic, strong) IBOutlet UITableView *trainTableView;
+@property (nonatomic, strong) NSArray *trainLine;
 
 @end
 
@@ -24,8 +25,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"Nearest Metro's: %lu", (unsigned long)_nearStation.count);
-    return _nearStation.count;
+    //NSLog(@"Nearest Metro's: %lu", (unsigned long)_nearStation.count);
+    return _trainLine.count;
 }
 
 
@@ -36,10 +37,10 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
-    NSArray *trainLine = [_nearStation objectForKey:@"train"];
     
-    cell.textLabel.text = [(NSDictionary *)[trainLine objectAtIndex:indexPath.row] objectForKey:@"line"];
-    cell.detailTextLabel.text = [(NSDictionary *)[trainLine objectAtIndex:indexPath.row] objectForKey:@"destination"];
+    
+    cell.textLabel.text = [(NSDictionary *)[_trainLine objectAtIndex:indexPath.row] objectForKey:@"line"];
+    cell.detailTextLabel.text = [(NSDictionary *)[_trainLine objectAtIndex:indexPath.row] objectForKey:@"destination"];
     
     //    cell.detailTextLabel.text = [trainLine objectForKey:@"min"];
     //    cell.textLabel.text = [_nearStation objectForKey:@"line"];
@@ -60,7 +61,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"Receiving: %@", _nearStation);
+    _trainLine = [_nearStation objectForKey:@"train"];
+    NSLog(@"Receiving: %@ with %li stations", _nearStation,_trainLine.count);
 }
 
 - (void)didReceiveMemoryWarning {

@@ -34,7 +34,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="m0Z-8J-nRN">
-                                <rect key="frame" x="16" y="20" width="568" height="388"/>
+                                <rect key="frame" x="16" y="72" width="568" height="303"/>
                                 <connections>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="ZXA-3Q-ROf"/>
                                 </connections>
@@ -42,22 +42,36 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Hzs-Yj-yqQ">
                                 <rect key="frame" x="16" y="416" width="568" height="176"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="7E6-zm-hh9"/>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="tnT-G1-gXN"/>
                                 </connections>
                             </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="pQm-C9-XXj">
+                                <rect key="frame" x="75" y="380" width="451" height="29"/>
+                                <color key="backgroundColor" red="0.62352035979999998" green="0.62352035979999998" blue="0.62352035979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <segments>
+                                    <segment title="Metro"/>
+                                    <segment title="Bike Share"/>
+                                </segments>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </segmentedControl>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.41917558641157066" green="0.62213781418187653" blue="0.73238266206750968" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-44" id="BiL-qL-Ugh"/>
+                            <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="top" secondItem="pQm-C9-XXj" secondAttribute="bottom" constant="8" id="5Ny-Pm-XlS"/>
+                            <constraint firstItem="pQm-C9-XXj" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="59" id="7z5-HR-7Zo"/>
+                            <constraint firstItem="m0Z-8J-nRN" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="BiL-qL-Ugh"/>
                             <constraint firstItem="m0Z-8J-nRN" firstAttribute="leading" secondItem="Hzs-Yj-yqQ" secondAttribute="trailing" constant="-568" id="DWx-zw-bCP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="pQm-C9-XXj" secondAttribute="trailing" constant="58" id="H2J-pI-vqK"/>
                             <constraint firstItem="m0Z-8J-nRN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="N8V-08-8Qg"/>
                             <constraint firstItem="m0Z-8J-nRN" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="YhY-q8-HBP"/>
                             <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="axl-4j-EbA"/>
                             <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="blx-aq-Xij"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="m0Z-8J-nRN" secondAttribute="bottom" constant="192" id="oFw-IU-4kE"/>
-                            <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="top" secondItem="m0Z-8J-nRN" secondAttribute="bottom" constant="8" id="ov4-WC-TSb"/>
+                            <constraint firstItem="pQm-C9-XXj" firstAttribute="top" secondItem="m0Z-8J-nRN" secondAttribute="bottom" constant="5" id="l9H-ez-3HF"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="m0Z-8J-nRN" secondAttribute="bottom" constant="225" id="oFw-IU-4kE"/>
+                            <constraint firstItem="Hzs-Yj-yqQ" firstAttribute="top" secondItem="m0Z-8J-nRN" secondAttribute="bottom" constant="41" id="ov4-WC-TSb"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Hzs-Yj-yqQ" secondAttribute="bottom" constant="8" id="zlS-i2-Fbw"/>
                         </constraints>
                     </view>
@@ -72,12 +86,13 @@
                         <outlet property="metroTableView" destination="Hzs-Yj-yqQ" id="jbc-JP-oDK"/>
                         <outlet property="sendLocationButton" destination="D9N-SI-CRt" id="Mno-V1-scT"/>
                         <outlet property="transitMapView" destination="m0Z-8J-nRN" id="2JK-OV-BxP"/>
+                        <outlet property="travelSeg" destination="pQm-C9-XXj" id="dtu-yT-gLm"/>
                         <segue destination="ZT5-vM-bxA" kind="show" identifier="listToDetailSegue" id="sQs-cr-Cqk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="304" y="149"/>
+            <point key="canvasLocation" x="303" y="149"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="3Xi-mO-52T">

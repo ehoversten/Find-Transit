@@ -27,9 +27,12 @@
 @property (nonatomic, strong) NSArray            *metroArray;
 @property (nonatomic, strong) NSArray            *bikeArray;
 @property (nonatomic, strong) NSArray            *busArray;
+@property (nonatomic, strong) NSArray            *latArray;
+@property (nonatomic, strong) NSArray            *lonArray;
 @property (nonatomic, strong) IBOutlet MKMapView *transitMapView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem  *sendLocationButton;
 @property (nonatomic, strong) IBOutlet UITableView *metroTableView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *travelSeg;
 
 @end
 
@@ -39,6 +42,29 @@
 BOOL internetAvailable;
 BOOL serverAvailable;
 
+#pragma mark - Search Methods
+
+- (void)searchSegClicked: (UISearchBar *)segmentBar {
+    switch (_travelSeg.selectedSegmentIndex) {
+        case 0:
+            [self metroSearch];
+            break;
+        case 1:
+            [self bikeSearch];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)metroSearch {
+    NSLog(@"Metro Search");
+}
+
+- (void)bikeSearch {
+    NSLog(@"Bike Search");
+}
+
 #pragma mark - TableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -46,7 +72,7 @@ BOOL serverAvailable;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"Nearest Metro's: %lu", (unsigned long)_metroArray.count);
+    //NSLog(@"Nearest Metro's: %lu", (unsigned long)_metroArray.count);
     return _metroArray.count;
 }
 
@@ -58,9 +84,21 @@ BOOL serverAvailable;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
+    
+    // Metro Station display code
     NSDictionary *nearStation = [_metroArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [nearStation objectForKey:@"name"];
-    cell.detailTextLabel.text = [nearStation objectForKey:@"address"];
+//    cell.textLabel.text = [nearStation objectForKey:@"name"];
+//    cell.detailTextLabel.text = [nearStation objectForKey:@"address"];
+    
+    
+    // Bike Share display code
+    NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = [nearBike objectForKey:@"name"];
+    NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
+    NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
+    
+    
     //    cell.textLabel.text = [(NSDictionary *)json objectForKey:@"station"] ];
     
     return cell;
@@ -87,12 +125,17 @@ BOOL serverAvailable;
     
 }   // end of prepareForSegue Method
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section  {
+    return @"Metro Stations";
+}
+
+
+
 - (void)dataReceived:(NSNotification *)flag {
     NSLog(@"Got Data for Table");
     [_metroTableView reloadData];
 }
 
-#pragma mark - Search Methods
 
 #pragma mark - Interactivity Methods
 
@@ -122,17 +165,24 @@ BOOL serverAvailable;
          //   NSLog(@"Searching: %@",dataString);
             NSError *jsonError;
             NSJSONSerialization *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-            NSLog(@"JSON Parsed : %@", json);
+         //   NSLog(@"JSON Parsed : %@", json);
             _metroArray = [(NSDictionary *) json objectForKey:@"station"];
-            NSLog(@"Station Results : %@", _metroArray);
-            NSString *stationName = [(NSDictionary *) json objectForKey:@"name"];
-            NSLog(@"Station Results : %@", _stationName);
+            NSLog(@"Station Array Results: %@", _metroArray);
+            _bikeArray = [(NSDictionary *) json objectForKey:@"bike"];
+            NSLog(@"Bike Array Results: %@", _bikeArray);
+            
+            _latArray = [(NSDictionary *) json objectForKey:@"latitude"];
+            _lonArray = [(NSDictionary *) json objectForKey:@"longitude"];
+            
+//            NSString *stationName = [(NSDictionary *) json objectForKey:@"name"];
+//            NSLog(@"Station Name Results : %@", _stationName);
             
             dispatch_async(dispatch_get_main_queue(), ^{  // go back to the Main (foreground) Thread
               //  [spinner stopAnimating];
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:false];
                 [_metroTableView reloadData];       // will refresh the TableView
-               // [self annotateMapLocations];
+                [self annotateMapLocations];
+                [_transitMapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
             });
         }
     }];
@@ -216,6 +266,7 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 1200, 1200);
         MKCoordinateRegion adjustedRegion = [_transitMapView regionThatFits:viewRegion];
         [_transitMapView setRegion:adjustedRegion animated:true];
+//        [_transitMapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
     }
 }
 
@@ -226,43 +277,43 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
             [locs addObject:annot];
         }
     }
-//
-//    [_transitMapView removeAnnotations:locs];       // remove pins
-//    
-//    NSMutableArray *annotionArray = [[NSMutableArray alloc] init];
-//    MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
-//    pa.coordinate = CLLocationCoordinate2DMake(38, -122);
-//    pa.title = @"Silver Spring, MD";
-//    [annotionArray addObject:pa];
-//    
-//    MKPointAnnotation *pa2 = [[MKPointAnnotation alloc] init];
-//    pa2.coordinate = CLLocationCoordinate2DMake(40, -120);
-//    pa2.title = @"Pin 2";
-//    [annotionArray addObject:pa2];
-//    
-//    MKPointAnnotation *pa3 = [[MKPointAnnotation alloc] init];
-//    pa3.coordinate = CLLocationCoordinate2DMake(38, -121);
-//    pa3.title = @"Pin 3";
-//    [annotionArray addObject:pa3];
-//    
-//    [_metroMapView addAnnotations:annotionArray];  // adds annotations to the mapView
-//    
-//}
 
-//- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-//    if (annotation != mapView.userLocation) {
-//        MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
-//        if (annotationView == nil) {
-//            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
-//            annotationView.canShowCallout = true;
-//            annotationView.pinColor = MKPinAnnotationColorGreen;
-//            annotationView.animatesDrop = true;
-//        } else {
-//            annotationView.annotation = annotation;
-//        }
-//        return annotationView;
-//    }
-//    return nil;
+    [_transitMapView removeAnnotations:locs];       // remove pins
+    
+    NSMutableArray *annotionArray = [[NSMutableArray alloc] init];
+    MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
+    pa.coordinate = CLLocationCoordinate2DMake(38.911131, -77.044424);
+    pa.title = @"Dupont Circle";
+    [annotionArray addObject:pa];
+
+    MKPointAnnotation *pa2 = [[MKPointAnnotation alloc] init];
+    pa2.coordinate = CLLocationCoordinate2DMake(38.902822, -77.039145);
+    pa2.title = @"Farragut North";
+    [annotionArray addObject:pa2];
+
+    MKPointAnnotation *pa3 = [[MKPointAnnotation alloc] init];
+    pa3.coordinate = CLLocationCoordinate2DMake(38.901400, -77.041788);
+    pa3.title = @"Farragut West";
+    [annotionArray addObject:pa3];
+    
+    [_transitMapView addAnnotations:annotionArray];  // adds annotations to the mapView
+    
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    if (annotation != mapView.userLocation) {
+        MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
+        if (annotationView == nil) {
+            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
+            annotationView.canShowCallout = true;
+            annotationView.pinColor = MKPinAnnotationColorGreen;
+            annotationView.animatesDrop = true;
+        } else {
+            annotationView.annotation = annotation;
+        }
+        return annotationView;
+    }
+    return nil;
 }
 
 #pragma mark - Location Methods
