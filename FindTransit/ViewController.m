@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSString           *trainLineName;
 @property (nonatomic, strong) NSArray            *metroArray;
 @property (nonatomic, strong) NSArray            *bikeArray;
+@property (nonatomic, strong) NSArray            *stationArray;
 @property (nonatomic, strong) NSArray            *busArray;
 
 @property (nonatomic, strong) IBOutlet MKMapView *transitMapView;
@@ -42,29 +43,7 @@
 BOOL internetAvailable;
 BOOL serverAvailable;
 
-//#pragma mark - Search Methods
-//
-//- (IBAction)searchSegClicked:(UISegmentedControl *)segmentBar {
-//    switch (_travelSeg.selectedSegmentIndex) {
-//        case 0:
-//            [self metroSearch];
-//            break;
-//        case 1:
-//            [self bikeSearch];
-//            break;
-//        default:
-//            break;
-//    }
-//}
-//
-//- (void)metroSearch {
-//    NSLog(@"Metro Search");
-//}
-//
-//- (void)bikeSearch {
-//    NSLog(@"Bike Search");
-//}
-//
+
 #pragma mark - TableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -72,7 +51,6 @@ BOOL serverAvailable;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //NSLog(@"Nearest Metro's: %lu", (unsigned long)_metroArray.count);
     if (_travelSeg.selectedSegmentIndex == 0) {
         return _metroArray.count;
     } else if (_travelSeg.selectedSegmentIndex == 1) {
@@ -80,7 +58,6 @@ BOOL serverAvailable;
     } else {
         return 0;
     }
-    //return _metroArray.count;
 }
 
 
@@ -102,30 +79,7 @@ BOOL serverAvailable;
         NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
         NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
-        
-        
-//        NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
-//        cell.textLabel.text = [nearBike objectForKey:@"name"];
-//        NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
-//        NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
-//        cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
     }
-
-    
-//    // Metro Station display code
-//    NSDictionary *nearStation = [_metroArray objectAtIndex:indexPath.row];
-//    cell.textLabel.text = [nearStation objectForKey:@"name"];
-//    cell.detailTextLabel.text = [nearStation objectForKey:@"address"];
-//    
-//    // Bike Share display code
-//    NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
-//    cell.textLabel.text = [nearBike objectForKey:@"name"];
-//    NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
-//    NSArray *bikesOpenSpaces = [nearBike objectForKey:@"nbEmptyDocks"];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"Available Bikes: %@   Open Spaces: %@", bikesAvailArray, bikesOpenSpaces];
-    
-    
-    //    cell.textLabel.text = [(NSDictionary *)json objectForKey:@"station"] ];
     
     return cell;
 }
@@ -138,7 +92,6 @@ BOOL serverAvailable;
     } else {
         [_metroTableView deselectRowAtIndexPath:[_metroTableView indexPathForSelectedRow] animated:true];
     }
-    // code for adding a sequeToDetailView
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -149,22 +102,10 @@ BOOL serverAvailable;
         if (_travelSeg.selectedSegmentIndex == 0) {
             NSDictionary *line = [_metroArray objectAtIndex:indexPath.row];
             destController.nearStation = line;
-            NSLog(@"Passing Metro: %@", line);
         }
-//        } else if (_travelSeg.selectedSegmentIndex == 1) {
-//            NSDictionary *line = [_bikeArray objectAtIndex:indexPath.row];
-//            destController.nearStation = line;
-//            //destController.nearBike = line;
-//            NSLog(@"Passing Bike Share: %@", line);
-//        }
-//        NSDictionary *line = [_metroArray objectAtIndex:indexPath.row];
-//        destController.nearStation = line;
-//        NSLog(@"Passing:%@", [line objectForKey:@"train"]);
-        
-        
     }
     
-}   // end of prepareForSegue Method
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section  {
     if (_travelSeg.selectedSegmentIndex == 0) {
@@ -178,9 +119,7 @@ BOOL serverAvailable;
 
 
 
-- (void)dataReceived:(NSNotification *)flag {
-    NSLog(@"Got Data for Table");
-    
+- (void)dataReceived:(NSNotification *)flag {    
     [_metroTableView reloadData];
 }
 
@@ -188,22 +127,14 @@ BOOL serverAvailable;
 #pragma mark - Interactivity Methods
 
 - (IBAction)sendMapViewButton:(id)sender  {
-    NSLog(@"Go go gadget Maps!");
+
 }
 
 - (IBAction)sendLocationButton:(id)sender {
-    NSLog(@"Lat,Long: Sent...");
+
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:true];
     
-//    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
-//                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-////    spinner.frame = CGRectMake(0, 0, 24, 24);
-//    spinner.center = CGPointMake(100, 50);
-//    spinner.hidesWhenStopped = YES;
-//    [self.view addSubview:spinner];
-//    [spinner startAnimating];
-////    [spinner release];
     
     NSURL *fileURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@/?lat=%f&long=%f", _hostName, [[[_appDelegate goSearch] latitude] floatValue],[[[_appDelegate goSearch] longitude] floatValue]]];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:fileURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
@@ -212,25 +143,15 @@ BOOL serverAvailable;
     // this code gets ran in the BACKGROUND thread
     [NSURLConnection sendAsynchronousRequest: urlRequest queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (([data length] > 0) && (error == nil)) {
-            // this code gets ran in the BACKGROUND thread
-            NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-         //   NSLog(@"Searching: %@",dataString);
+
             NSError *jsonError;
             NSJSONSerialization *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-         //   NSLog(@"JSON Parsed : %@", json);
             _metroArray = [(NSDictionary *) json objectForKey:@"station"];
-            NSLog(@"Station Array Results: %@", _metroArray);
             _bikeArray = [(NSDictionary *) json objectForKey:@"bike"];
-            NSLog(@"Bike Array Results: %@", _bikeArray);
-            
-//            _latArray = [(NSDictionary *) json objectForKey:@"latitude"];
-//            _lonArray = [(NSDictionary *) json objectForKey:@"longitude"];
-            
-//            NSString *stationName = [(NSDictionary *) json objectForKey:@"name"];
-//            NSLog(@"Station Name Results : %@", _stationName);
+            _busArray = [(NSDictionary *) json objectForKey:@"buses"];
+
             
             dispatch_async(dispatch_get_main_queue(), ^{  // go back to the Main (foreground) Thread
-              //  [spinner stopAnimating];
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:false];
                 [_metroTableView reloadData];       // will refresh the TableView
                 if (_travelSeg.selectedSegmentIndex == 0) {
@@ -324,7 +245,6 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 1200, 1200);
         MKCoordinateRegion adjustedRegion = [_transitMapView regionThatFits:viewRegion];
         [_transitMapView setRegion:adjustedRegion animated:true];
-//        [_transitMapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
     }
 }
 
@@ -354,11 +274,6 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
         if (annotationView == nil) {
             annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
             annotationView.canShowCallout = true;
-//            if (_travelSeg.selectedSegmentIndex == 0) {
-//                annotationView.pinColor = MKPinAnnotationColorGreen;
-//            } else if (_travelSeg.selectedSegmentIndex == 1)  {
-//                annotationView.pinColor = MKPinAnnotationColorRed;
-//            }
             annotationView.pinColor = MKPinAnnotationColorRed;
             annotationView.animatesDrop = true;
         } else {
@@ -439,7 +354,7 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
     [self setupLocationMonitoring];  // check to see if we have a connection available
     
     
-    _hostName = @"transit-on-rails.herokuapp.com";   // empty place holder
+    _hostName = @"transit-on-rails.herokuapp.com";   // data host
     
     // Listener Code
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -465,7 +380,7 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 @end

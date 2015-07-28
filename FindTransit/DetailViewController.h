@@ -12,7 +12,6 @@
 @interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) AppDelegate    *appDelegate;
-@property (nonatomic, strong) SearchManager  *goSearch;
 @property (nonatomic, strong) NSDictionary   *nearStation;
 @property (nonatomic, strong) NSArray        *metroArray;
 

@@ -8,15 +8,19 @@
 
 #import "DetailViewController.h"
 #import "AppDelegate.h"
+#import "MetroTableViewCell.h"
 
 @interface DetailViewController ()
 
 @property (nonatomic, strong) IBOutlet UITableView *trainTableView;
-@property (nonatomic, strong) NSArray *trainLine;
+@property (nonatomic, strong) NSArray              *trainLine;
+@property (nonatomic, strong) IBOutlet UILabel     *stationLabel;
 
 @end
 
 @implementation DetailViewController
+
+
 
 #pragma mark - Table View Methods
 
@@ -25,7 +29,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //NSLog(@"Nearest Metro's: %lu", (unsigned long)_nearStation.count);
     return _trainLine.count;
 }
 
@@ -33,36 +36,43 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = (UITableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    MetroTableViewCell *cell = (MetroTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    _stationLabel.text = [_nearStation objectForKey:@"name"];
+
+    cell.addressLabel.text = [NSString stringWithFormat:@"Address: %@ ",[_nearStation objectForKey:@"address"]];
+    cell.destinationLabel.text = [(NSDictionary *)[_trainLine objectAtIndex:indexPath.row] objectForKey:@"destination"];
+    cell.etaLabel.text = [NSString stringWithFormat:@"Approximate ETA: %@ min", [(NSDictionary *)[_trainLine objectAtIndex:indexPath.row] objectForKey:@"min"]];
+
+    cell.lineColorLabel.text = [(NSDictionary *)[_trainLine objectAtIndex:indexPath.row] objectForKey:@"line"];
+    
+    if ([cell.lineColorLabel.text  isEqual: @"BL"]) {
+        [cell.lineColorLabel setBackgroundColor:[UIColor blueColor]];
+    } else if ([cell.lineColorLabel.text  isEqual: @"OR"]) {
+        [cell.lineColorLabel setBackgroundColor:[UIColor orangeColor]];
+    } else if ([cell.lineColorLabel.text  isEqual: @"GR"]) {
+        [cell.lineColorLabel setBackgroundColor:[UIColor greenColor]];
+    } else if ([cell.lineColorLabel.text isEqual:@"RD"]) {
+        [cell.lineColorLabel setBackgroundColor:[UIColor redColor]];
+    } else if ([cell.lineColorLabel.text isEqual:@"SV"]) {
+        [cell.lineColorLabel setBackgroundColor:[UIColor grayColor]];
+    } else if ([cell.lineColorLabel.text isEqual:@"YW"]) {
+        [cell.lineColorLabel setBackgroundColor:[UIColor yellowColor]];
+    } else if ([cell.lineColorLabel.text isEqual:@"--"]) {
+        [cell.lineColorLabel setBackgroundColor:[UIColor blackColor]];
     }
-    
-    
-    cell.textLabel.text = [(NSDictionary *)[_trainLine objectAtIndex:indexPath.row] objectForKey:@"line"];
-    cell.detailTextLabel.text = [(NSDictionary *)[_trainLine objectAtIndex:indexPath.row] objectForKey:@"destination"];
-    
-    //    cell.detailTextLabel.text = [trainLine objectForKey:@"min"];
-    //    cell.textLabel.text = [_nearStation objectForKey:@"line"];
-    //    cell.detailTextLabel.text = [_nearStation objectForKey:@"min"];
-    //    cell.textLabel.text = [(NSDictionary *)json objectForKey:@"station"] ];
-    
     return cell;
 }
 
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    _goSearch = _appDelegate.goSearch;
-    _goSearch = [SearchManager shareSearch];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _trainLine = [_nearStation objectForKey:@"train"];
-    NSLog(@"Receiving: %@ with %li stations", _nearStation,_trainLine.count);
 }
 
 - (void)didReceiveMemoryWarning {

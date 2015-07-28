@@ -12,7 +12,7 @@
 @interface MapViewController : UIViewController
 
 @property (nonatomic, strong) AppDelegate    *appDelegate;
-@property (nonatomic, strong) SearchManager  *goSearch;
+
 
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
 - (IBAction)handlePinch:(UIPinchGestureRecognizer *)recognizer;

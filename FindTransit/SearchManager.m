@@ -25,24 +25,6 @@
     _dataArray = @[@"Junk",@"Other Junk"];
 }
 
-//- (void)getDataWithSearchString:(NSString *)searchString forRegion:(MKCoordinateRegion)region {
-//    NSLog(@"Search Requested");
-//    MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
-//    request.naturalLanguageQuery = searchString;
-//    request.region = region;
-//    // this runs in the background until listener knows about it
-//    MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
-//    [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
-//        if (response.mapItems.count == 0) {
-//            NSLog(@"Got Nothing");
-//        } else {
-//            _dataArray = response.mapItems;     // load _dataArray
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"ResultsDoneNotification" object:nil];
-//        }
-//        
-//    }];
-//    
-//}
 
 @end
 

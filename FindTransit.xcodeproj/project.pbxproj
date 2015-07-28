@@ -10,6 +10,7 @@
 		C7E226901B60316D00B5F7BA /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E2268F1B60316D00B5F7BA /* MapViewController.m */; };
 		C7E226921B6038AC00B5F7BA /* color_map_silverline.png in Resources */ = {isa = PBXBuildFile; fileRef = C7E226911B6038AC00B5F7BA /* color_map_silverline.png */; };
 		C7E226941B6039B600B5F7BA /* new-metro-map-small.png in Resources */ = {isa = PBXBuildFile; fileRef = C7E226931B6039B600B5F7BA /* new-metro-map-small.png */; };
+		C7E226971B605A0700B5F7BA /* MetroTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E226961B605A0700B5F7BA /* MetroTableViewCell.m */; };
 		C7FBF0E71B5A17ED00CD5176 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF0E61B5A17ED00CD5176 /* main.m */; };
 		C7FBF0EA1B5A17ED00CD5176 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF0E91B5A17ED00CD5176 /* AppDelegate.m */; };
 		C7FBF0ED1B5A17ED00CD5176 /* FindTransit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF0EB1B5A17ED00CD5176 /* FindTransit.xcdatamodeld */; };
@@ -40,6 +41,8 @@
 		C7E2268F1B60316D00B5F7BA /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		C7E226911B6038AC00B5F7BA /* color_map_silverline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = color_map_silverline.png; sourceTree = "<group>"; };
 		C7E226931B6039B600B5F7BA /* new-metro-map-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-metro-map-small.png"; sourceTree = "<group>"; };
+		C7E226951B605A0700B5F7BA /* MetroTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroTableViewCell.h; sourceTree = "<group>"; };
+		C7E226961B605A0700B5F7BA /* MetroTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetroTableViewCell.m; sourceTree = "<group>"; };
 		C7FBF0E11B5A17ED00CD5176 /* FindTransit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindTransit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7FBF0E51B5A17ED00CD5176 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7FBF0E61B5A17ED00CD5176 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -115,6 +118,8 @@
 				C7FBF1181B5A2D9900CD5176 /* DetailViewController.m */,
 				C7E2268E1B60316D00B5F7BA /* MapViewController.h */,
 				C7E2268F1B60316D00B5F7BA /* MapViewController.m */,
+				C7E226951B605A0700B5F7BA /* MetroTableViewCell.h */,
+				C7E226961B605A0700B5F7BA /* MetroTableViewCell.m */,
 				C7FBF1111B5A186C00CD5176 /* Reachability.h */,
 				C7FBF1121B5A186C00CD5176 /* Reachability.m */,
 				C7FBF1131B5A186C00CD5176 /* SearchManager.h */,
@@ -258,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7E226971B605A0700B5F7BA /* MetroTableViewCell.m in Sources */,
 				C7FBF0EA1B5A17ED00CD5176 /* AppDelegate.m in Sources */,
 				C7FBF1161B5A186C00CD5176 /* SearchManager.m in Sources */,
 				C7FBF0ED1B5A17ED00CD5176 /* FindTransit.xcdatamodeld in Sources */,
