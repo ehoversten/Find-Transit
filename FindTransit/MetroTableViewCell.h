@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BorderedRoundedView.h"
+#import "UIColor+Metro.h"
 
 @interface MetroTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *lineColorLabel;
-//@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *addressLabel;
 @property (nonatomic, strong) IBOutlet UILabel *destinationLabel;
 @property (nonatomic, strong) IBOutlet UILabel *etaLabel;
+@property (nonatomic, strong) IBOutlet BorderedRoundedView *colorCircle;
 
 @end

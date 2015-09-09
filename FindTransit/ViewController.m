@@ -70,10 +70,12 @@ BOOL serverAvailable;
     }
     
     if (_travelSeg.selectedSegmentIndex == 0) {
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         NSDictionary *nearStation = [_metroArray objectAtIndex:indexPath.row];
         cell.textLabel.text = [nearStation objectForKey:@"name"];
         cell.detailTextLabel.text = [nearStation objectForKey:@"address"];
     } else if (_travelSeg.selectedSegmentIndex == 1) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSDictionary *nearBike = [_bikeArray objectAtIndex:indexPath.row];
         cell.textLabel.text = [nearBike objectForKey:@"name"];
         NSArray *bikesAvailArray = [nearBike objectForKey:@"nbBikes"];
@@ -86,12 +88,10 @@ BOOL serverAvailable;
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Selected");
     if (_travelSeg.selectedSegmentIndex == 0) {
         [self performSegueWithIdentifier:@"listToDetailSegue" sender:self];
-    } else {
-        [_metroTableView deselectRowAtIndexPath:[_metroTableView indexPathForSelectedRow] animated:true];
     }
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -150,10 +150,10 @@ BOOL serverAvailable;
             _bikeArray = [(NSDictionary *) json objectForKey:@"bike"];
             _busArray = [(NSDictionary *) json objectForKey:@"buses"];
 
-            
-            dispatch_async(dispatch_get_main_queue(), ^{  // go back to the Main (foreground) Thread
+            // go back to the Main (foreground) Thread
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:false];
-                [_metroTableView reloadData];       // will refresh the TableView
+                [_metroTableView reloadData];       // refresh TableView
                 if (_travelSeg.selectedSegmentIndex == 0) {
                     [self annotateMapLocations:_metroArray];
                 } else if (_travelSeg.selectedSegmentIndex == 1) {
@@ -274,7 +274,12 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
         if (annotationView == nil) {
             annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
             annotationView.canShowCallout = true;
-            annotationView.pinColor = MKPinAnnotationColorRed;
+            if (_travelSeg.selectedSegmentIndex == 0) {
+                annotationView.pinColor = MKPinAnnotationColorGreen;
+            } else if (_travelSeg.selectedSegmentIndex == 1) {
+                annotationView.pinColor = MKPinAnnotationColorRed;
+            }
+//            annotationView.pinColor = MKPinAnnotationColorRed;
             annotationView.animatesDrop = true;
         } else {
             annotationView.annotation = annotation;
@@ -375,6 +380,10 @@ if(curReach == _internetReach || curReach == _wifiReach)  {
     [self updateReachabilityStatus:_wifiReach];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataReceived:) name:@"ResultsDoneNotification" object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [_metroTableView reloadData];
 }
 
 
